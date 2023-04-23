@@ -1,3 +1,13 @@
+import {
+  Button,
+  Card,
+  ControlGroup,
+  Elevation,
+  Checkbox,
+  InputGroup,
+  Tag,
+} from "@blueprintjs/core";
+
 import { useEffect, useState } from "react";
 
 function App() {
@@ -37,45 +47,45 @@ function App() {
   const handleDelete = (index) => {
     // create a copy of the taskList array
     const newTaskList = [...taskList];
+
     // remove the item at the given index
     newTaskList.splice(index, 1);
+
     // update the taskList state variable
     setTaskList(newTaskList);
   };
 
   return (
     <div className="App">
-      <div className="card">
+      <Card elevation={Elevation.TWO}>
         <h2 className="heading">To-do List</h2>
-        <form onSubmit={handleSubmit} className="input-wrapper">
-          <input
-            className="input"
-            placeholder="Add a task"
-            value={taskInput}
-            onChange={handleChange}
-          ></input>
-          <button type="submit" className="add-btn">
-            Add
-          </button>
+        <form onSubmit={handleSubmit}>
+          <ControlGroup fill={true} vertical={false}>
+            <InputGroup
+              placeholder="Add a task"
+              value={taskInput}
+              onChange={handleChange}
+            ></InputGroup>
+            <Button type="submit" intent="primary">
+              Add
+            </Button>
+          </ControlGroup>
         </form>
         <div className="items-list">
           {taskList.map((task, index) => (
-            <label className="tag" key={index}>
-              <input
-                type="checkbox"
+            <Tag key={index} large minimal multiline onRemove={handleDelete}>
+              <Checkbox
                 checked={task.finished}
                 onChange={() => toggleTask(index)}
-              />
-              <span className={task.finished ? "finished" : ""}>
-                {task.description}
-              </span>
-              <button className="remove-btn" onClick={handleDelete}>
-                <span>+</span>
-              </button>
-            </label>
+              >
+                <span className={task.finished ? "finished" : ""}>
+                  {task.description}
+                </span>
+              </Checkbox>
+            </Tag>
           ))}
         </div>
-      </div>
+      </Card>
     </div>
   );
 }
